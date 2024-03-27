@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JUNKACE</title>
+    <!-- <link rel="stylesheet" href="../styles.css" />00 -->
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://i.pinimg.com/564x/ef/bc/56/efbc563dd3bfb4e4a3cf2e936fdcdadc.jpg');
+    background-size: 150vh;
+    background-repeat: no-repeat;
+    background-position: full;
+    margin: 0px;
+    padding: 0px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.page {
+    display: full;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Page-specific styles */
+.page h1,
+.page h2 {
+    margin-top: 0;
+    animation: slideIn 0.5s ease forwards;
+}
+
+.page input[type="text"],
+.page input[type="password"],
+.page button,
+.page form {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    animation: slideIn 0.5s ease forwards;
+}
+
+.page button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.page button:hover {
+    background-color: #0056b3;
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+}
+
+}
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Page 1: Name and Login Button -->
+      <div id="page1" class="page">
+        <h1>Welcome to JUNKACE</h1>
+        <input type="text" id="username" placeholder="Enter your name" />
+        <button onclick="navigateToPage(2)">Login</button>
+
+        {{prediction}}
+      </div>
+
+      <!-- Page 2: Selection between Public and Collector -->
+      <div id="page2" class="page">
+        <h2>Welcome, <span id="loggedInUsername"></span>!</h2>
+        <p>Please select your role:</p>
+        <button onclick="navigateToPage(3, 'public')">Public</button>
+        <button onclick="navigateToPage(4, 'collector')">Collector</button>
+        <button onclick="navigateToPage(1)">Back</button>
+      </div>
+
+      <!-- Page 3: Public Login -->
+      <div id="page3" class="page">
+        <h2>Login as Public</h2>
+        <input type="text" id="publicUsername" placeholder="Enter username" />
+        <input
+          type="password"
+          id="publicPassword"
+          placeholder="Enter password"
+        />
+        <button onclick="login('public')">Login</button>
+        <button onclick="navigateToPage(2)">Back</button>
+      </div>
+
+      <!-- Page 4: Collector Login -->
+      <div id="page4" class="page">
+        <h2>Login as Collector</h2>
+        <input
+          type="text"
+          id="collectorUsername"
+          placeholder="Enter username"
+        />
+        <input
+          type="password"
+          id="collectorPassword"
+          placeholder="Enter password"
+        />
+        <button onclick="login('collector')">Login</button>
+        <button onclick="navigateToPage(2)">Back</button>
+      </div>
+
+      <!-- Page 5: Photo Upload -->
+      <div id="page5" class="page">
+        <h2>JUNKACE</h2>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <label for="image">Select an image:</label>
+          <input type="file" id="image" name="image" accept="image/*" />
+
+          <br /><br />
+
+          <label for="text">Enter the location:</label>
+          <input type="text" id="text" name="text" />
+
+          <br /><br />
+
+          <button type="submit">Upload</button>
+          <button onclick="navigateToPage(2)">Back</button>
+        </form>
+      </div>
+
+      <!-- Page 6: Success Message -->
+      <div id="page6" class="page">
+        <h2>Photo Successfully Uploaded!</h2>
+        <button onclick="navigateToPage(2)">Back</button>
+      </div>
+    </div>
+
+    <script>
+      // Function to navigate to a specific page and hide others
+      function navigateToPage(pageNumber, username = null) {
+        // Hide all pages
+        document.querySelectorAll(".page").forEach(function (page) {
+          page.style.display = "none";
+        });
+        // Show the selected page
+        document.getElementById("page" + pageNumber).style.display = "block";
+        // If username is provided and page is 2, update the greeting
+        if (pageNumber === 2 && username) {
+          document.getElementById("loggedInUsername").innerText = username;
+        }
+      }
+
+      // Function to handle login
+      function login(role) {
+        let username, password;
+        if (role === "public") {
+          username = document.getElementById("publicUsername").value;
+          password = document.getElementById("publicPassword").value;
+          // Here you can add additional steps like validation and authorization
+          navigateToPage(5); // Navigate to photo upload page after login as public
+        } else if (role === "collector") {
+          username = document.getElementById("collectorUsername").value;
+          password = document.getElementById("collectorPassword").value;
+          // Here you would handle the login process for collector
+        }
+        // Here you would handle the login process, possibly via AJAX requests to the server
+        // For the demo purpose, let's just print the username and role in the console
+        console.log("Username:", username);
+        console.log("Role:", role);
+      }
+
+      // Function to handle photo upload
+      function uploadPhoto() {
+        // Here you can handle the photo upload process
+        // For demonstration, we'll navigate to the success page
+        navigateToPage(6);
+      }
+
+      // Initially, navigate to page 1
+      navigateToPage(1);
+    </script>
+ </body>
+</html>

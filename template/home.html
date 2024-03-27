@@ -1,0 +1,106 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+</head>
+<body>
+    <a href="/details">View Previous Data</a>
+    <h1>Garbage Management</h1>
+    
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="image">Select an image:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+        
+        <br><br>
+        
+        <label for="text">Enter the location:</label>
+        <input type="text" id="text" name="text">
+        
+        <br><br>
+        
+        <input type="submit" value="Upload">
+    </form>
+    <p>{{ prediction }}</p>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            width: 50%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="file"], input[type="text"], input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        p {
+            text-align: center;
+            color: #4caf50;
+            font-weight: bold;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #333;
+        }
+        a:hover {
+            color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <a href="/details">View Previous Data</a>
+    <h1>JunkAce</h1>
+    
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="image">Select an image:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+        
+        <label for="text">Enter the location:</label>
+        <input type="text" id="text" name="text">
+        
+        <input type="submit" value="Upload">
+    </form>
+    <p>{{ prediction }}</p>
+
+</body>
+</html>
